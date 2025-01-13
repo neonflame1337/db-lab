@@ -1,9 +1,9 @@
 package com.kpi.lab.api.model.account
 
-import java.util.UUID
+
 
 class CreateAccountRequest (
-    val userId: UUID,
+    val userId: String,
     val name: String,
     val balance: Int
 )

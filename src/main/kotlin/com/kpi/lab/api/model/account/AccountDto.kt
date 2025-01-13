@@ -1,15 +1,15 @@
 package com.kpi.lab.api.model.account
 
-import com.kpi.lab.persistence.postgres.entity.AccountEntity
-import java.util.UUID
+import com.kpi.lab.persistence.mongo.entity.AccountDocument
+
 
 class AccountDto(
-    val id: UUID,
+    val id: String,
     val name: String,
     val balance: Int
 )
 
-fun AccountEntity.toDto() =
+fun AccountDocument.toDto() =
     AccountDto(
         id = this.id,
         name = this.publicId,

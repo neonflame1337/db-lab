@@ -20,12 +20,12 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 	implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.4.1")
 	runtimeOnly("org.postgresql:postgresql:42.7.2")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

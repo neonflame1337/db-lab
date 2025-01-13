@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
 
 @RestController
 @RequestMapping("api/v1/account")
@@ -25,11 +24,11 @@ class AccountController(
         ).toDto()
 
     @PostMapping("/{accountId}/deposit")
-    fun deposit(@PathVariable accountId: UUID, amount: Int) =
+    fun deposit(@PathVariable accountId: String, amount: Int) =
         accountService.deposit(accountId, amount)
 
     @PostMapping("/{accountId}/withdraw")
-    fun withdraw(@PathVariable accountId: UUID, amount: Int) =
+    fun withdraw(@PathVariable accountId: String, amount: Int) =
         accountService.withdraw(accountId, amount)
 
     @DeleteMapping("/{accountId}")

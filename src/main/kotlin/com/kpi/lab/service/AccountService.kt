@@ -1,33 +1,33 @@
 package com.kpi.lab.service
 
-import com.kpi.lab.persistence.postgres.entity.AccountEntity
-import com.kpi.lab.persistence.postgres.repository.AccountRepository
 import com.kpi.lab.exception.EntityNotFoundException
 import com.kpi.lab.exception.InvalidOperationException
+import com.kpi.lab.persistence.mongo.entity.AccountDocument
+import com.kpi.lab.persistence.mongo.repository.AccountRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.UUID
+
 
 @Service
 class AccountService(
     private val userService: UserService,
     private val accountRepository: AccountRepository,
 ) {
-    fun getById(id: UUID) =
+    fun getById(id: String) =
         accountRepository.findByIdOrNull(id) ?: throw EntityNotFoundException("account with id: $id was not found")
 
-    fun create(userId: UUID, accountName: String, balance: Int) =
+    fun create(userId: String, accountName: String, balance: Int) =
         accountRepository.save(
-            AccountEntity(
+            AccountDocument(
                 publicId = accountName,
                 balance = balance,
             ).also { it.user = userService.getById(userId) }
         )
 
-    fun deposit(id: UUID, amount: Int) =
+    fun deposit(id: String, amount: Int) =
         accountRepository.save(getById(id).also { it.balance += amount })
 
-    fun withdraw(id: UUID, amount: Int): AccountEntity {
+    fun withdraw(id: String, amount: Int): AccountDocument {
         val account = getById(id)
         if ( (account.balance - amount) < 0)
             throw InvalidOperationException("insufficient funds on account with id: $id")

@@ -3,7 +3,7 @@ package com.kpi.lab.api.model.user
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.kpi.lab.api.model.account.AccountDto
 import com.kpi.lab.api.model.account.toDto
-import com.kpi.lab.persistence.postgres.entity.UserEntity
+import com.kpi.lab.persistence.mongo.entity.UserDocument
 import java.time.Instant
 
 class UserDto(
@@ -18,7 +18,7 @@ class UserDto(
     val accounts: List<AccountDto>? = null
 )
 
-fun UserEntity.toDto() = UserDto(
+fun UserDocument.toDto() = UserDto(
     id = this.id.toString(),
     firstName = this.firstName,
     lastName = this.lastName,

@@ -1,4 +1,4 @@
-version: '2'
+version: '3.8'
 
 services:
   posgres-db:
@@ -13,10 +13,24 @@ services:
     networks:
       default: {}
 
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: developer
+      MONGO_INITDB_ROOT_PASSWORD: developer
+    volumes:
+      - mongodb_data:/data/db
+
 networks:
   default:
     driver: bridge
 
 volumes:
   posgres-db:
+    driver: "local"
+  mongodb_data:
     driver: "local"

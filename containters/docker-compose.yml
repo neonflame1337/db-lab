@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  posgres-db:
+    image: postgres:17.2-alpine
+    mem_limit: 512m
+    ports:
+      - "5454:5432"
+    environment:
+      POSTGRES_PASSWORD: developer
+    volumes:
+      - ./init-sql:/docker-entrypoint-initdb.d
+    networks:
+      default: {}
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  posgres-db:
+    driver: "local"

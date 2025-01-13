@@ -1,0 +1,5 @@
+app:
+  persistence:
+    postgres:
+      jdbc-url: jdbc:postgresql://localhost:5454/db_postgres?user=developer&password=developer
+      pool-size: 3

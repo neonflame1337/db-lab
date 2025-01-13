@@ -6,12 +6,16 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
+import org.hibernate.annotations.Where
 import java.time.Instant
 import java.util.UUID
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted_at = now() WHERE id = ?")
+@Where(clause = "deleted_at is NULL")
 class UserEntity(
     @Id val id: UUID = UUIDv7.generate(),
     val firstName: String,

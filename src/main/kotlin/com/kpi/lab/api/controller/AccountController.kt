@@ -33,5 +33,5 @@ class AccountController(
         accountService.withdraw(accountId, amount)
 
     @DeleteMapping("/{accountId}")
-    fun deleteAccount(@PathVariable accountId: String) {}
+    fun deleteAccount(@PathVariable accountId: UUID) { accountService.delete(accountId) }
 }

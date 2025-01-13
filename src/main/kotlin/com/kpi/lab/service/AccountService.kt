@@ -29,8 +29,11 @@ class AccountService(
 
     fun withdraw(id: UUID, amount: Int): AccountEntity {
         val account = getById(id)
+        if (!account.user.isActive) throw InvalidOperationException("User is inactive")
         if ( (account.balance - amount) < 0)
             throw InvalidOperationException("insufficient funds on account with id: $id")
         return accountRepository.save(account.also { it.balance -= amount })
     }
+
+    fun delete(id: UUID) = accountRepository.save(getById(id).also { it.deletedAt })
 }

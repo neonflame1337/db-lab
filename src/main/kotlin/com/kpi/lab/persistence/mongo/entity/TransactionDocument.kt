@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
 
 @Document(collection = "transactions")
-class TransactionDocument(
+open class TransactionDocument(
     @Id val id: String = UUIDv7.generate(),
     @Field("status") var status: TransactionStatus = TransactionStatus.CREATED,
     @Field("amount") val amount: Int,

@@ -4,7 +4,6 @@ import com.kpi.lab.exception.EntityNotFoundException
 import com.kpi.lab.exception.InvalidOperationException
 import com.kpi.lab.persistence.mongo.entity.AccountDocument
 import com.kpi.lab.persistence.mongo.repository.AccountRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 
@@ -14,15 +13,19 @@ class AccountService(
     private val accountRepository: AccountRepository,
 ) {
     fun getById(id: String) =
-        accountRepository.findByIdOrNull(id) ?: throw EntityNotFoundException("account with id: $id was not found")
+        accountRepository.findActiveById(id) ?: throw EntityNotFoundException("account with id: $id was not found")
 
-    fun create(userId: String, accountName: String, balance: Int) =
-        accountRepository.save(
+    fun create(userId: String, accountName: String, balance: Int): AccountDocument {
+        val user = userService.getById(userId)
+        val account = accountRepository.save(
             AccountDocument(
                 publicId = accountName,
                 balance = balance,
-            ).also { it.user = userService.getById(userId) }
+            ).also { it.user = user }
         )
+        userService.addUserAccount(user, account)
+        return account
+    }
 
     fun deposit(id: String, amount: Int) =
         accountRepository.save(getById(id).also { it.balance += amount })

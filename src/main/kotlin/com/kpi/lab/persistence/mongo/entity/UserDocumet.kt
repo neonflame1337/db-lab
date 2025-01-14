@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
 
 @Document(collection = "users")
-class UserDocument(
+open class UserDocument(
     @Id val id: String = UUIDv7.generate(),
     @Field("first_name") val firstName: String,
     @Field("last_name") val lastName: String,

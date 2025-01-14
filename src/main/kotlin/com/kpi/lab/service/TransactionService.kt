@@ -4,6 +4,7 @@ import com.kpi.lab.persistence.mongo.entity.TransactionDocument
 import com.kpi.lab.persistence.mongo.entity.TransactionStatus
 import com.kpi.lab.persistence.mongo.repository.TransactionRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -32,15 +33,25 @@ class TransactionService(
         )
 
         runCatching {
-            accountService.withdraw(fromAccountId, amount)
-            accountService.deposit(toAccountId, amount)
-
-            transaction.status = TransactionStatus.SUCCESS
-            transactionRepository.save(transaction)
+            doTransaction(fromAccountId, toAccountId, amount, transaction)
         }.onFailure {
             transaction.status = TransactionStatus.FAILED
             transactionRepository.save(transaction)
             throw it
         }
+    }
+
+    @Transactional("mongoTransactionManager")
+    fun doTransaction(
+        fromAccountId: String,
+        toAccountId: String,
+        amount: Int,
+        transaction: TransactionDocument
+        ) {
+        accountService.withdraw(fromAccountId, amount)
+        accountService.deposit(toAccountId, amount)
+
+        transaction.status = TransactionStatus.SUCCESS
+        transactionRepository.save(transaction)
     }
 }

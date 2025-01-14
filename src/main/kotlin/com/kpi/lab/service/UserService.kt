@@ -1,6 +1,7 @@
 package com.kpi.lab.service
 
 import com.kpi.lab.exception.EntityNotFoundException
+import com.kpi.lab.persistence.mongo.entity.AccountDocument
 import com.kpi.lab.persistence.mongo.entity.UserDocument
 import com.kpi.lab.persistence.mongo.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -13,7 +14,7 @@ class UserService(
     private val userRepository: UserRepository,
 ) {
     fun getById(id: String) =
-        userRepository.findByIdOrNull(id.toString()) ?: throw EntityNotFoundException("user with id: $id was not found")
+        userRepository.findActiveById(id) ?: throw EntityNotFoundException("user with id: $id was not found")
 
     fun create(firstName: String, lastName:  String)=
         userRepository.save(
@@ -23,11 +24,14 @@ class UserService(
             )
         )
 
-    fun findAll() = userRepository.findAll()
+    fun findAll() = userRepository.findAllActive()
 
     fun activate(id: String) = userRepository.save(getById(id).also { it.activate() })
 
     fun deactivate(id: String) = userRepository.save(getById(id).also { it.deactivate() })
 
     fun delete(id: String) = userRepository.save(getById(id).also { it.deletedAt = Instant.now() })
+
+    fun addUserAccount(user: UserDocument, account: AccountDocument) =
+        userRepository.save(user.also { it.accounts.add(account) })
 }

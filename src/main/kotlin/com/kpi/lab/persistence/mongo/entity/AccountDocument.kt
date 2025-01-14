@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
 
 @Document(collection = "accounts")
-class AccountDocument(
+open class AccountDocument(
     @Id val id: String = UUIDv7.generate(),
     @Field("public_id") val publicId: String,
     @Field("balance") var balance: Int
@@ -26,7 +26,6 @@ class AccountDocument(
     @Field("deleted_at")
     var deletedAt: Instant? = null
 
-    @DBRef(lazy = true)
-    @Field("user_id")
+    @DBRef(lazy = false)
     lateinit var user: UserDocument
 }

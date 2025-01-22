@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 	implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
+
 	runtimeOnly("org.postgresql:postgresql:42.7.2")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

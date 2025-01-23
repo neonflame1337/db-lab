@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class LabApplication
+class OnlineBankApplication
 
 fun main(args: Array<String>) {
-	runApplication<LabApplication>(*args)
+	runApplication<OnlineBankApplication>(*args)
 }

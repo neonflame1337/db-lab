@@ -15,7 +15,6 @@ import java.util.UUID
 
 @Entity
 @Table(name = "accounts")
-@SQLDelete(sql = "UPDATE accounts SET deleted_at = now() WHERE id = ?")
 @Where(clause = "deleted_at is NULL")
 class AccountEntity(
     @Id

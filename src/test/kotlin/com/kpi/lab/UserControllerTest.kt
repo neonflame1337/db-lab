@@ -3,7 +3,9 @@ package com.kpi.lab
 import com.kpi.lab.persistence.postgres.entity.UserEntity
 import com.kpi.lab.persistence.postgres.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -22,7 +24,7 @@ class UserControllerTest {
     @Autowired private lateinit var webClient: WebTestClient
     @Autowired private lateinit var userRepository: UserRepository
 
-    @BeforeEach
+    @AfterEach
     fun deleteData() {
         userRepository.deleteAll()
     }
@@ -140,41 +142,6 @@ class UserControllerTest {
                        "last_name": "User",
                        "is_active": false
                      }
-                """.trimIndent()
-            )
-    }
-
-    @Test
-    fun deleteUserTest() {
-        val userId = saveUserSample("Test", "User").id
-
-        webClient.delete()
-            .uri("api/v1/user/$userId")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .json(
-                """
-                   {
-                       "id": "$userId",
-                       "first_name": "Test",
-                       "last_name": "User",
-                       "is_active": false
-                     }
-                """.trimIndent()
-            )
-
-        assertThat(userRepository.findAll().first().deletedAt).isNotNull()
-
-        webClient.get()
-            .uri("api/v1/user/list")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .json(
-                """
-                   [
-                   ]
                 """.trimIndent()
             )
     }

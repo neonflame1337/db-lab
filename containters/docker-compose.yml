@@ -67,12 +67,14 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
 
-      CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/java/kafka
+      CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/java/kafka-connect-jdbc
+
     volumes:
       - ./data:/data
-      - ./kafka_2.12-3.4.0/libs/connect-file-3.4.0.jar:/usr/share/java/kafka/connect-file-3.4.0.jar
+      - ./plugins/kafka-connect-jdbc:/usr/share/java/kafka-connect-jdbc
+
     networks:
-      default: { }
+      - default
 
 
 networks:
